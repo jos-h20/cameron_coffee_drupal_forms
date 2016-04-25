@@ -15,6 +15,8 @@ function bruno_display() {
     return '
     <p>This is my dog, Bruno. He is a good dog. He looks like:</p>
     <img src=' . $path . '>
+    <p>To find out more information about Golden Retrievers like Bruno, visit:</p>
+        <a href="https://en.wikipedia.org/wiki/Golden_Retriever">here</a>
     ';
     // return '<img src="sites/all/modules/pet/images/bruno2.jpg"/>';
 }
