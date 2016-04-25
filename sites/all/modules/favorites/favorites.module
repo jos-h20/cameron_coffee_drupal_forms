@@ -18,22 +18,6 @@ $GLOBALS['favorites']['songs'] = array(
 );
 
 function favorites_menu() {
-    $favorites = array();
-    $favorites['movies'] = array(
-        "Driving Miss Daisy",
-        "Sound of Music",
-        "Kindergarten Cop",
-    );
-    $favorites['books'] = array(
-        "Green Eggs and Ham",
-        "The Holy Bible",
-        "War and Peace",
-    );
-    $favorites['songs'] = array(
-        "On the Edge of Seventeen",
-        "Holy Diver",
-        "Believe",
-    );
 
     $items = array();
     $items['movies'] = array(

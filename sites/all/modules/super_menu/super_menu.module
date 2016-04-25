@@ -1,0 +1,201 @@
+<?php
+$GLOBALS['favorites'] = array();
+$GLOBALS['favorites']['movies'] = array(
+    "Driving Miss Daisy",
+    "Sound of Music",
+    "Kindergarten Cop",
+);
+$GLOBALS['favorites']['books'] = array(
+    "Green Eggs and Ham",
+    "The Holy Bible",
+    "War and Peace",
+);
+$GLOBALS['favorites']['songs'] = array(
+    "On the Edge of Seventeen",
+    "Holy Diver",
+    "Believe",
+);
+function super_menu_menu() {
+    $items = array();
+    $items['Bruno'] = array(
+        'title' => "Cameron's Dog Bruno",
+        'page callback' => 'bruno_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $friends = array("Bob", "Jim", "Mary");
+    foreach($friends as $friend) {
+        $items['cards/' .$friend] = array(
+            'title' => 'Card for ' . $friend,
+            'page callback' => 'cards_display_' . $friend,
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+        );
+    }
+    $items['groceries'] = array(
+        'title' => "Cameron's grocery list",
+        'page callback' => 'groceries_display',
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['movies'] = array(
+        'title' => "Cameron's Favorite Movies",
+        'page callback' => 'fav_movies_display',
+        'access callback' => TRUE,
+        'type' =>   MENU_NORMAL_ITEM,
+    );
+    $items['books'] = array(
+        'title' => "Cameron's Favorite Books",
+        'page callback' => 'fav_books_display',
+        'access callback' => TRUE,
+        'type' =>   MENU_NORMAL_ITEM,
+    );
+    $items['songs'] = array(
+        'title' => "Cameron's Favorite Songs",
+        'page callback' => 'fav_songs_display',
+        'access callback' => TRUE,
+        'type' =>   MENU_NORMAL_ITEM,
+    );
+    $items['hello_friend'] = array(
+        'title' => "Hello Friend!",
+        'page callback' => 'say_farewell',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['farewell'] = array(
+        'title' => 'Farewell Friend!',
+        'page callback' => 'say_hello',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    $items['specials'] = array(
+        'title' => "Cameron's Daily Specials",
+        'page callback' => 'specials_display',
+        'access callback' => TRUE,
+        'type' =>   MENU_NORMAL_ITEM,
+    );
+    return $items;
+}
+
+function bruno_display() {
+    $path = drupal_get_path('module', 'pet') . '/images/bruno2.jpg';
+    return '
+    <p>This is my dog, Bruno. He is a good dog. He looks like:</p>
+    <img src=' . $path . '>
+    <p>To find out more information about Golden Retrievers like Bruno, visit:</p>
+        <a href="https://en.wikipedia.org/wiki/Golden_Retriever">here</a>
+    ';
+    // return '<img src="sites/all/modules/pet/images/bruno2.jpg"/>';
+}
+function cards_display_Bob() {
+    return '
+    <p> Hey, buddy Bob! You are my friend. </p>
+    ';
+}
+function cards_display_Jim() {
+    return '
+    <p> Hey, buddy Jim! You are my friendly friend. </p>
+    ';
+}
+function cards_display_Mary() {
+    return '
+    <p> Hey, buddy Mary! You are my friend as well. </p>
+    ';
+}
+
+function groceries_display() {
+    $groceries = array();
+    $groceries['eggs'] = array(
+        'price'=> 1.99,
+        'quantity' => 2,
+    );
+    $groceries['milk'] = array(
+        'price' => 3.99,
+        'quantity' => 4,
+    );
+    $groceries['ice cream'] = array(
+        'price' => 4.49,
+        'quantity' => 3,
+    );
+    $groceries['kale'] = array(
+        'price' => 1.99,
+        'quantity' => 3,
+    );
+
+
+    $grocery_list = null;
+    foreach ($groceries as $grocery_item => $item_info) {
+
+        $grocery_list .= "<h3>" . $grocery_item . "</h3>
+                          <p>Total: " . $item_info['price']*$item_info['quantity'] . "</p>";
+    }
+    return $grocery_list;
+}
+function fav_movies_display() {
+    $GLOBALS['favorites'] ;
+    $movie_list = null;
+    foreach($GLOBALS['favorites']['movies'] as $movie) {
+        $movie_list .= '
+            <ul>
+                <li>' . $movie . '</li>
+            </ul>
+        ';
+    }
+    return $movie_list;
+}
+
+function fav_books_display() {
+    $favorites = array();
+    $favorites['movies'] = array(
+        "Driving Miss Daisy",
+        "Sound of Music",
+        "Kindergarten Cop",
+    );
+    $favorites['books'] = array(
+        "Green Eggs and Ham",
+        "The Holy Bible",
+        "War and Peace",
+    );
+    $favorites['songs'] = array(
+        "On the Edge of Seventeen",
+        "Holy Diver",
+        "Believe",
+    );
+    $book_list = null;
+    foreach($favorites['books'] as $book) {
+        $book_list .= '
+            <ul>
+                <li>' . $book . '</li>
+            </ul>
+        ';
+    }
+    return $book_list;
+}
+
+function fav_songs_display() {
+    $song_list = null;
+    foreach($GLOBALS['favorites']['songs'] as $song) {
+        $song_list .= '
+            <ul>
+                <li>' . $song . '</li>
+            </ul>
+        ';
+    }
+    return $song_list;
+}
+function say_hello() {
+    return '<p>Hello my dear friend!</p>';
+}
+
+function say_farewell() {
+    return '<p>Fare thee well my dear friend!</p>';
+}
+function specials_display() {
+    return '
+    <ul>
+        <li>Chai Latte</li>
+        <li>Chocolate bacon cookies</li>
+        <li>Salted caramel apple croissant</li>
+    </ul>
+    ';
+}

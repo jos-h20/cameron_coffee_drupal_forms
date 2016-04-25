@@ -1,0 +1,5 @@
+name = Super menu
+description = List of custom menus built by geniuses
+package = Menu Package
+core = 7.x
+files[] = super_menu.module
