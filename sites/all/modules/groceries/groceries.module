@@ -29,8 +29,8 @@ function groceries_display() {
         'quantity' => 3,
     );
 
-    $grocery_list = "";
 
+    $grocery_list = null;
     foreach ($groceries as $grocery_item => $item_info) {
 
         $grocery_list .= "<h3>" . $grocery_item . "</h3>
