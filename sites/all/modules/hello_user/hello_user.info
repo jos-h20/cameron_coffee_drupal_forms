@@ -1,0 +1,5 @@
+name = Hello User
+description = Route the user to a success page when they create an account
+package = Epicodus Examples
+core = 7.x
+files[] = hello_user.module
