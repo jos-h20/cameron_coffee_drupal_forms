@@ -1,5 +1,0 @@
-name = Pet
-description = List out Cameron's favorite pets
-package = Epicodus Examples
-core = 7.x
-files[] = pet.module
