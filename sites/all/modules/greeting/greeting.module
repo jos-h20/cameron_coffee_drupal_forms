@@ -16,14 +16,8 @@ function greeting_menu() {
     return $items;
 }
 
-// var_dump($user->roles);
 function say_hello() {
-    $user = $GLOBALS['user'];
-    if($user->roles[2] && $user->roles[3]) {
-        return '<p>Hello dear admin! Welcome to your domain.</p>';
-    } elseif ($user->roles[2]) {
-        return '<p>Nice to see you, welcome back.</p>';
-    };
+    return '<p>Hello my dear friend! You are Super Awesome!</p>';
 }
 
 function say_farewell() {
