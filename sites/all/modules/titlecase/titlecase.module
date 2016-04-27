@@ -1,0 +1,48 @@
+<?php
+function titlecase_menu() {
+    $items['titlecase'] = array(
+        'title' => 'Title Case Translator',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('titlecase_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+
+    $items['titlecase_success_page'] = array(
+        'title' => 'Success',
+        'page callback' => 'titlecase_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function titlecase_form() {
+    $form['entered_text'] = array(
+        '#title' => 'Text to Translate',
+        '#type' => 'textfield',
+        '#description' => t('Enter the text that you would like to be translated into title case'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Translate',
+    );
+    return $form;
+}
+
+function titlecase_form_submit($form, &$form_state) {
+    $user_input = $form_state['values']['entered_text'];
+
+    $input_word_array = explode(" ", $user_input);
+    $translated_text = array();
+    foreach($input_word_array as $word) {
+        array_push($translated_text, ucfirst($word));
+    }
+    $text_translated = implode(" ", $translated_text);
+    $_SESSION['translated'] = $text_translated;
+    $form_state['redirect'] = 'titlecase_success_page';
+}
+
+function titlecase_success() {
+    return $_SESSION['translated'];
+}

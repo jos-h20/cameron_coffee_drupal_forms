@@ -1,0 +1,5 @@
+name = Title Case
+description = Takes input text from user and returns it with the first letter of each word capitalized.
+package = Epicodus Examples
+core = 7.x
+files[] = titlecase.module
