@@ -1,0 +1,52 @@
+<?php
+function clock_angle_menu() {
+    $items['clockangle'] = array(
+        'title' => 'Clock Angle Calculator',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('clock_angle_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['clock_angle_success_page'] = array(
+        'title' => 'Success',
+        'page callback' => 'clock_angle_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function clock_angle_form() {
+    $form['hour'] = array(
+        '#title' => 'Hour',
+        '#type' => 'textfield',
+        '#description' => t('Enter the hour of the time in numeric form'),
+    );
+    $form['minute'] = array(
+        '#title' => 'Minute',
+        '#type' => 'textfield',
+        '#description' => t('Enter the minute of the time in numeric form'),
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Find the angle',
+    );
+    return $form;
+}
+
+function clock_angle_form_submit($form, &$form_state) {
+    $hour = $form_state['values']['hour'];
+    $minute = $form_state['values']['minute'];
+
+// The minutes hand of the clock rotates 360 degrees in 60 minutes so each minute represents 6 degrees. The hours hand of the clock rotates 360 degrees in 12 hours so we know it moves a total of 30 degrees after each hour, but you need to factor in the advancement of the hours hand between hours. i.e. at 3:30 the minutes hand is on 6 and the hours hand has progressed past 3. We can calculate this advancement simply by (minutes/60) * 30 degrees which is equivalent to minute * .5. 
+
+    $answer = abs(($hour * 30 + $minute * 0.5) - ($minute * 6) % 360);
+    $result = min(360-$answer, $answer);
+    $_SESSION['result'] = $result . " degrees";
+    $form_state['redirect'] = 'clock_angle_success_page';
+
+}
+
+function clock_angle_success() {
+    return $_SESSION['result'];
+}

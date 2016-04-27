@@ -1,0 +1,5 @@
+name = Clock Angle
+description= This module will grab a time of day from the user and return the angle between the hour and minute hand.
+package = Epicodus examples
+core = 7.x
+files[] = clock_angle.module
