@@ -1,0 +1,63 @@
+<?php
+function queen_attack_menu() {
+    $items['queen_attack'] = array(
+        'title' => "Attack of the Mighty Queen",
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('queen_attack_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['queen_attack_success_page'] = array(
+        'title' => 'Success',
+        'page callback' => 'queen_attack_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+function queen_attack_form() {
+    $form['user_xcoordinate'] = array(
+        '#title' => "User X Coordinate",
+        '#type' => 'textfield',
+        '#description' => t('Enter X coordinate.'),
+    );
+    $form['user_ycoordinate'] = array(
+        '#title' => "User Y Coordinate",
+        '#type' => 'textfield',
+        '#description' => t('Enter Y coordinate.'),
+    );
+    $form['queen_xcoordinate'] = array(
+        '#title' => "Queen X Coordinate",
+        '#type' => 'textfield',
+        '#description' => t('Enter X coordinate.'),
+    );
+    $form['queen_ycoordinate'] = array(
+        '#title' => "Queen Y Coordinate",
+        '#type' => 'textfield',
+        '#description' => t('Enter Y coordinate.'),
+    );
+    $form['submit'] = array(
+        '#type' =>'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function queen_attack_form_submit($form, &$form_state) {
+    $user_xcoordinate = $form_state['values']['user_xcoordinate'];
+    $user_ycoordinate = $form_state['values']['user_ycoordinate'];
+    $queen_xcoordinate = $form_state['values']['queen_xcoordinate'];
+    $queen_ycoordinate = $form_state['values']['queen_ycoordinate'];
+
+    if ($user_xcoordinate == $queen_xcoordinate || $user_ycoordinate == $queen_ycoordinate || abs($user_xcoordinate - $queen_xcoordinate) == abs($user_ycoordinate - $queen_ycoordinate)) {
+        $result = "Can attack!";
+    } else {
+        $result = "Can't attack!";
+    }
+    $_SESSION['result'] = $result;
+    $form_state['redirect'] = 'queen_attack_success_page';
+}
+
+function queen_attack_success() {
+    return $_SESSION['result'];
+}
