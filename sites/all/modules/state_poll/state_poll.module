@@ -1,4 +1,66 @@
 <?php
+
+$GLOBALS['states'] = array();
+$GLOBALS['states'] = array(
+    'AL' => 'Alabama',
+    'AK' => 'Alaska',
+    'AZ' => 'Arizona',
+    'AR' => 'Arkansas',
+    'CA' => 'California',
+    'CO' => 'Colorado',
+    'CT' => 'Connecticut',
+    'DE' => 'Delaware',
+    'FL' => 'Florida',
+    'GA' => 'Georgia',
+    'HI' => 'Hawaii',
+    'ID' => 'Idaho',
+    'IL' => 'Illinois',
+    'IN' => 'Indiana',
+    'IA' => 'Iowa',
+    'KS' => 'Kansas',
+    'KY' => 'Kentucky',
+    'LA' => 'Louisiana',
+    'ME' => 'Maine',
+    'MD' => 'Maryland',
+    'MA' => 'Massachusetts',
+    'MI' => 'Michigan',
+    'MN' => 'Minnesota',
+    'MS' => 'Mississippi',
+    'MO' => 'Missouri',
+    'MT' => 'Montana',
+    'NE' => 'Nebraska',
+    'NV' => 'Nevada',
+    'NH' => 'New Hampshire',
+    'NJ' => 'New Jersey',
+    'NM' => 'New Mexico',
+    'NY' => 'New York',
+    'NC' => 'North Carolina',
+    'ND' => 'North Dakota',
+    'OH' => 'Ohio',
+    'OK' => 'Oklahoma',
+    'OR' => 'Oregon',
+    'PA' => 'Pennsylvania',
+    'RI' => 'Rhode Island',
+    'SC' => 'South Carolina',
+    'SD' => 'South Dakota',
+    'TN' => 'Tennessee',
+    'TX' => 'Texas',
+    'UT' => 'Utah',
+    'VT' => 'Vermont',
+    'VA' => 'Virginia',
+    'WA' => 'Washington',
+    'WV' => 'West Virginia',
+    'WI' => 'Wisconsin',
+    'WY' => 'Wyoming',
+    'DC' => 'District of Columbia',
+    'AS' => 'American Samoa',
+    'GU' => 'Guam',
+    'MP' => 'Northern Mariana Islands',
+    'PR' => 'Puerto Rico',
+    'UM' => 'United States Minor Outlying Islands',
+    'VI' => 'Virgin Islands, U.S.',
+);
+
 function state_poll_menu() {
     $items['state_poll'] = array(
         'title' => "Ice Cream by State",
@@ -37,70 +99,23 @@ function state_poll_form() {
     return $form;
 }
 
-function element_validate_us_state($element) {
-    $state_strtolower = strtolower($element['#value']);
-    $state_ucfirst = ucfirst($state_strtolower);
-    $states = array(
-      'National',
-      'Alabama',
-      'Alaska',
-      'Arizona',
-      'Arkansas',
-      'California',
-      'Colorado',
-      'Connecticut',
-      'Delaware',
-      'Florida',
-      'Georgia',
-      'Hawaii',
-      'Idaho',
-      'Illinois',
-      'Indiana',
-      'Iowa',
-      'Kansas',
-      'Kentucky',
-      'Louisiana',
-      'Maine',
-      'Maryland',
-      'Massachusetts',
-      'Michigan',
-      'Minnesota',
-      'Mississippi',
-      'Missouri',
-      'Montana',
-      'Nebraska',
-      'Nevada',
-      'New Hampshire',
-      'New Jersey',
-      'New Mexico',
-      'New York',
-      'North Carolina',
-      'North Dakota',
-      'Ohio',
-      'Oklahoma',
-      'Oregon',
-      'Pennsylvania',
-      'Rhode Island',
-      'South Carolina',
-      'South Dakota',
-      'Tennessee',
-      'Texas',
-      'Utah',
-      'Vermont',
-      'Virginia',
-      'Washington',
-      'West Virginia',
-      'Wisconsin',
-      'Wyoming',
-    );
-    if(in_array($state_ucfirst, $states) === false) {
-        form_set_error($state_ucfirst, t('Please enter a valid state.'));
-    }
-}
 
 function state_poll_form_submit($form, &$form_state) {
     $ice_cream = $form_state['values']['ice_cream'];
     $state = $form_state['values']['state'];
+
+
+    if (strlen($state) < 3) {
+        $state = strtoupper($state);
+        foreach ($GLOBALS['states'] as $new_state => $value) {
+            if ($state == $new_state) {
+                $state = $value;
+            }
+        }
+    } else {
+    $state = strtolower($state);
+    $state = ucwords($state);
+    }
 
     $result = "Thank you! You love " . $ice_cream . " ice cream in the state of " . $state . ".";
     $_SESSION['result'] = $result;
@@ -108,5 +123,102 @@ function state_poll_form_submit($form, &$form_state) {
 }
 
 function state_poll_success() {
-    return $_SESSION['result'];
+    var_dump($_SESSION['mydebugthing']);
+    return (string) $_SESSION['result'];
+}
+
+function element_validate_us_state($element) {
+    $state = $element['#value'];
+    if (strlen($state) < 3) {
+        $state = strtoupper($state);
+    } else {
+        $state = strtolower($state);
+        $state = ucwords($state);
+    }
+    // $states = array(
+    //     'AL','Alabama',
+    //     'AK','Alaska',
+    //     'AZ','Arizona',
+    //     'AR','Arkansas',
+    //     'CA','California',
+    //     'CO','Colorado',
+    //     'CT','Connecticut',
+    //     'DE','Delaware',
+    //     'FL','Florida',
+    //     'GA','Georgia',
+    //     'HI','Hawaii',
+    //     'ID','Idaho',
+    //     'IL','Illinois',
+    //     'IN','Indiana',
+    //     'IA','Iowa',
+    //     'KS','Kansas',
+    //     'KY','Kentucky',
+    //     'LA','Louisiana',
+    //     'ME','Maine',
+    //     'MD','Maryland',
+    //     'MA','Massachusetts',
+    //     'MI','Michigan',
+    //     'MN','Minnesota',
+    //     'MS','Mississippi',
+    //     'MO','Missouri',
+    //     'MT','Montana',
+    //     'NE','Nebraska',
+    //     'NV','Nevada',
+    //     'NH','New Hampshire',
+    //     'NJ','New Jersey',
+    //     'NM','New Mexico',
+    //     'NY','New York',
+    //     'NC','North Carolina',
+    //     'ND','North Dakota',
+    //     'OH','Ohio',
+    //     'OK','Oklahoma',
+    //     'OR','Oregon',
+    //     'PA','Pennsylvania',
+    //     'RI','Rhode Island',
+    //     'SC','South Carolina',
+    //     'SD','South Dakota',
+    //     'TN','Tennessee',
+    //     'TX','Texas',
+    //     'UT','Utah',
+    //     'VT','Vermont',
+    //     'VA','Virginia',
+    //     'WA','Washington',
+    //     'WV','West Virginia',
+    //     'WI','Wisconsin',
+    //     'WY','Wyoming',
+    //     'DC','District of Columbia',
+    //     'AS','American Samoa',
+    //     'GU','Guam',
+    //     'MP','Northern Mariana Islands',
+    //     'PR','Puerto Rico',
+    //     'UM','United States Minor Outlying Islands',
+    //     'VI','Virgin Islands, U.S.',
+    // );
+    // input $state: "California"
+    // 1: $new_state = AL $value = Alabama
+    // How to validate with a for each loop
+
+    $_SESSION['mydebugthing'] = array();
+    $is_error = TRUE;
+    foreach ($GLOBALS['states'] as $abbreviation => $full_name) {
+        if (($state == $abbreviation) || ($state == $full_name)) {
+            $is_error = FALSE;
+            break;
+        }
+    }
+    if($is_error) {
+        form_set_error($state, t('Please enter a valid state.'));
+    }
+    // how to validate with PHP commands:
+    // $full_state_names = array_values($GLOBALS['states']);
+    // $state_abbreviations = array_keys($GLOBALS['states']);
+    // $_SESSION['mydebugthing'][] = $full_state_names;
+    // $_SESSION['mydebugthing'][] = $state_abbreviations;
+
+    // if(!in_array($state, $full_state_names) && !in_array($state, $state_abbreviations)) {
+    //     form_set_error($state, t('Please enter a valid state.'));
+    // }
+    // if((array_key_exists($state, $GLOBALS['states']) === false)) {
+    //     // form_set_error($state, t('Please enter a valid state.'));
+    // }
 }

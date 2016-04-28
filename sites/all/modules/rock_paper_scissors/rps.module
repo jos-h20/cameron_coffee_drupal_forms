@@ -1,0 +1,30 @@
+<?php
+
+function rps_menu() {
+    $items['rps'] = array(
+            'title' => 'Rock, Paper, Scissors!',
+            'page callback' => 'drupal_get_form',
+            'page arguments' => array('rps_form'),
+            'access callback' => TRUE,
+            'type' => MENU_NORMAL_ITEM,
+    );
+    $items['first_player_page'] = array(
+            'title' => "First Player",
+            'page callback' => 'drupal_get_form',
+            'access callback' => TRUE,
+            'type' => MENU_CALLBACK,
+    );
+    $items['second_player_page'] = array(
+            'title' => "Second Player",
+            'page callback' => 'drupal_get_form',
+            'access callback' => TRUE,
+            'type' => MENU_CALLBACK,
+    );
+    $items['results_page'] = array(
+            'title' => "Results",
+            'page callback' => 'drupal_get_form',
+            'access callback' => TRUE,
+            'type' => MENU_CALLBACK,
+    );
+    return $items;
+}

@@ -1,0 +1,5 @@
+name = Rock Paper Scissors
+description = A game to win
+package = Epicodus Examples
+core = 7.x
+files[] = rps.module
