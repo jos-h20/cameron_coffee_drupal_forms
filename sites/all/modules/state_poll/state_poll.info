@@ -1,0 +1,5 @@
+name = State Poll
+description = Ask users to enter a text
+package = Epicodus Examples
+core = 7.x
+files[] = state_poll.module

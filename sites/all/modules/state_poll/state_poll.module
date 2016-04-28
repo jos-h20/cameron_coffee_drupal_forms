@@ -1,0 +1,112 @@
+<?php
+function state_poll_menu() {
+    $items['state_poll'] = array(
+        'title' => "Ice Cream by State",
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('state_poll_form'),
+        'access callback' => TRUE,
+        'type' => MENU_NORMAL_ITEM,
+    );
+    $items['state_poll_success_page'] = array(
+        'title' => 'Success',
+        'page callback' => 'state_poll_success',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
+    return $items;
+}
+
+function state_poll_form() {
+    $form['ice_cream'] = array(
+        '#title' => "Ice Cream Flavor",
+        '#type' => 'textfield',
+        '#description' => t('Enter your favorite ice cream flavor.'),
+        '#required' => TRUE,
+    );
+    $form['state'] = array(
+        '#title' => "Enter your State.",
+        '#type' => 'textfield',
+        '#description' => 'Enter your State.',
+        '#element_validate' => array('element_validate_us_state'),
+        '#required' => TRUE,
+    );
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function element_validate_us_state($element) {
+    $state_strtolower = strtolower($element['#value']);
+    $state_ucfirst = ucfirst($state_strtolower);
+    $states = array(
+      'National',
+      'Alabama',
+      'Alaska',
+      'Arizona',
+      'Arkansas',
+      'California',
+      'Colorado',
+      'Connecticut',
+      'Delaware',
+      'Florida',
+      'Georgia',
+      'Hawaii',
+      'Idaho',
+      'Illinois',
+      'Indiana',
+      'Iowa',
+      'Kansas',
+      'Kentucky',
+      'Louisiana',
+      'Maine',
+      'Maryland',
+      'Massachusetts',
+      'Michigan',
+      'Minnesota',
+      'Mississippi',
+      'Missouri',
+      'Montana',
+      'Nebraska',
+      'Nevada',
+      'New Hampshire',
+      'New Jersey',
+      'New Mexico',
+      'New York',
+      'North Carolina',
+      'North Dakota',
+      'Ohio',
+      'Oklahoma',
+      'Oregon',
+      'Pennsylvania',
+      'Rhode Island',
+      'South Carolina',
+      'South Dakota',
+      'Tennessee',
+      'Texas',
+      'Utah',
+      'Vermont',
+      'Virginia',
+      'Washington',
+      'West Virginia',
+      'Wisconsin',
+      'Wyoming',
+    );
+    if(in_array($state_ucfirst, $states) === false) {
+        form_set_error($state_ucfirst, t('Please enter a valid state.'));
+    }
+}
+
+function state_poll_form_submit($form, &$form_state) {
+    $ice_cream = $form_state['values']['ice_cream'];
+    $state = $form_state['values']['state'];
+
+    $result = "Thank you! You love " . $ice_cream . " ice cream in the state of " . $state . ".";
+    $_SESSION['result'] = $result;
+    $form_state['redirect'] = 'state_poll_success_page';
+}
+
+function state_poll_success() {
+    return $_SESSION['result'];
+}
