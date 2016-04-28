@@ -1,5 +1,5 @@
 <?php
-
+//Not fully functional, but it does route to pages correctly and saves session
 function rps_menu() {
     $items['rps'] = array(
             'title' => 'Rock, Paper, Scissors!',
@@ -8,23 +8,66 @@ function rps_menu() {
             'access callback' => TRUE,
             'type' => MENU_NORMAL_ITEM,
     );
-    $items['first_player_page'] = array(
-            'title' => "First Player",
-            'page callback' => 'drupal_get_form',
-            'access callback' => TRUE,
-            'type' => MENU_CALLBACK,
-    );
-    $items['second_player_page'] = array(
+    // $items['second_player_page'] = array(
+    //     'title' => 'Second Player!',
+    //     'page callback' => 'second_player_form',
+    //     'access callback' => TRUE,
+    //     'type' => MENU_CALLBACK,
+    // );
+    $items['second_player_form'] = array(
             'title' => "Second Player",
             'page callback' => 'drupal_get_form',
+            'page arguments' => array('second_player_form'),
             'access callback' => TRUE,
             'type' => MENU_CALLBACK,
     );
-    $items['results_page'] = array(
+    $items['results_page_success'] = array(
             'title' => "Results",
-            'page callback' => 'drupal_get_form',
+            'page callback' => 'results_page',
             'access callback' => TRUE,
             'type' => MENU_CALLBACK,
     );
     return $items;
+}
+
+function rps_form() {
+    $form['first_turn'] = array(
+        '#title' => 'First Player Turn',
+        '#type' => 'textfield',
+        '#description' => t('Enter your move!'),
+    );
+    $form['submit'] = array(
+        '#type' =>'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function rps_form_submit($form, &$form_state) {
+    $result = $form_state['values']['first_turn'];
+    $_SESSION['result'] = $result;
+    $form_state['redirect'] = 'second_player_form';
+}
+
+function second_player_form() {
+    $form['second_turn'] = array(
+        '#title' => 'Second Player Turn',
+        '#type' => 'textfield',
+        '#description' => t('Enter your move!'),
+    );
+    $form['submit'] = array(
+        '#type' =>'submit',
+        '#value' => 'Submit',
+    );
+    return $form;
+}
+
+function second_player_form_submit($form, &$form_state) {
+    $second_turn = $form_state['values']['second_turn'];
+    $_SESSION['second_turn'] = $second_turn;
+    $form_state['redirect'] = 'results_page_success';
+}
+
+function results_page() {
+    return $_SESSION['second_turn'];
 }
